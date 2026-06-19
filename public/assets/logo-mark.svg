@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="The Anvil Daily">
+  
+  <g fill="currentColor">
+    
+    <polygon points="17,20 17,28 5,23.5"></polygon>
+    
+    <rect x="15" y="18" width="35" height="9.5" rx="1.6"></rect>
+    
+    <rect x="44" y="27" width="6" height="4" rx="1"></rect>
+    
+    <polygon points="22,27.5 44,27.5 38.5,41 27.5,41"></polygon>
+    
+    <polygon points="28,40 38,40 49,49 15,49"></polygon>
+    
+    <rect x="13.5" y="47.5" width="37" height="4.5" rx="1.4"></rect>
+  </g>
+</svg>

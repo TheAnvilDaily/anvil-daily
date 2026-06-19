@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Anvil Daily — Independent journalism that checks the math</title>
+<meta name="description" content="The Anvil Daily — independent journalism that checks the math the rest of the press took on faith. Politics, economy, border, culture, foreign policy.">
+<meta property="og:title" content="The Anvil Daily">
+<meta property="og:description" content="Independent journalism that checks the math.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://anvildaily.com/">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
+<link rel="canonical" href="https://anvildaily.com/">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--paper);
+    color:var(--text-primary);
+    font-family:var(--font-sans);
+    -webkit-font-smoothing:antialiased;
+    --container-max:1240px;
+    --gutter:24px;
+  }
+  a{color:inherit}
+  ::selection{background:var(--red-100)}
+
+  /* utility */
+  .container{max-width:var(--container-max);margin:0 auto;padding:0 var(--gutter)}
+  .mono-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-500);text-decoration:none}
+  .kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-700)}
+  .kicker.accent{color:var(--red-500)}
+  .kicker.breaking{color:var(--red-500);display:inline-flex;align-items:center;gap:6px}
+  .kicker.breaking::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red-500);display:inline-block}
+  .rank{font-family:var(--font-display);font-weight:800;line-height:1;color:var(--red-500);font-variant-numeric:tabular-nums}
+  .placeholder{position:relative;width:100%;overflow:hidden;background:var(--ink-100);
+    background-image:radial-gradient(rgba(11,11,12,0.10) 1px, transparent 1.4px);
+    background-size:7px 7px;display:flex;align-items:flex-end;padding:12px;border-radius:2px}
+  .placeholder-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-400)}
+  .byline{font-family:var(--font-mono);font-size:12px;letter-spacing:0.04em;color:var(--ink-500);margin-top:14px}
+  .byline strong{font-weight:600;color:var(--ink-700)}
+  .section-rule{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink-900);padding-bottom:10px;margin-bottom:24px}
+  .section-rule h2{margin:0;font-family:var(--font-display);font-weight:800;font-size:19px;letter-spacing:-0.01em;color:var(--ink-900);white-space:nowrap}
+
+  /* utility bar */
+  .util-bar{height:38px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ink-150)}
+  .util-bar .links{display:flex;gap:20px;align-items:center}
+  .util-bar a.signin{color:var(--ink-900)}
+
+  /* masthead */
+  .masthead{padding:22px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .masthead-logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+  .masthead-logo svg{width:46px;height:46px;color:var(--ink-900);flex:none}
+  .wordmark{font-family:var(--font-display);font-weight:800;font-size:34px;letter-spacing:-0.025em;line-height:1;color:var(--ink-900);white-space:nowrap}
+  .wordmark .accent{color:var(--red-500)}
+  .masthead-actions{display:flex;align-items:center;gap:14px}
+  .btn{font-family:var(--font-sans);font-size:13px;font-weight:600;padding:7px 14px;border-radius:2px;cursor:pointer;text-decoration:none;white-space:nowrap;border:1px solid transparent}
+  .btn.outline{border-color:var(--ink-900);color:var(--ink-900);background:transparent}
+  .btn.outline:hover{background:var(--ink-900);color:var(--paper)}
+  .btn.accent{background:var(--red-500);color:var(--paper);border-color:var(--red-500)}
+  .btn.accent:hover{background:var(--red-600)}
+
+  /* section nav */
+  .section-nav{border-top:1px solid var(--ink-150)}
+  .section-nav .container{display:flex;gap:26px;align-items:stretch;height:46px;overflow-x:auto}
+  .section-nav a{display:flex;align-items:center;white-space:nowrap;font-family:var(--font-sans);font-size:13.5px;font-weight:600;letter-spacing:0.01em;text-decoration:none;color:var(--ink-600);border-bottom:2px solid transparent}
+  .section-nav a.active{color:var(--ink-900);border-bottom-color:var(--red-500)}
+  .section-nav a:hover{color:var(--ink-900)}
+
+  /* breaking ticker */
+  .breaking-ticker{border-bottom:1px solid var(--ink-150);background:var(--paper)}
+  .breaking-ticker .container{padding:10px var(--gutter);display:flex;align-items:center;gap:16px}
+  .breaking-ticker .body{font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--ink-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .breaking-ticker .follow{color:var(--red-500);text-decoration:none;font-weight:600;margin-left:8px}
+
+  /* hero (top three) */
+  .hero{padding:40px 0 8px}
+  .top-three{display:grid;grid-template-columns:1.55fr 1fr;gap:40px;align-items:stretch}
+  .top-three .lead{border-right:1px solid var(--ink-200);padding-right:40px}
+  .top-three .secondaries{display:flex;flex-direction:column}
+  .top-three .secondaries .pair{padding-bottom:24px}
+  .top-three .secondaries .pair.bottom{border-top:1px solid var(--ink-200);padding-top:24px;padding-bottom:0}
+  .story{text-decoration:none;color:inherit;display:block;height:100%}
+  .story .head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .story.lead .head{margin-bottom:14px}
+  .story.lead .head .rank{font-size:20px}
+  .story .head .rank{font-size:16px}
+  .story h3{font-family:var(--font-display);font-weight:700;line-height:var(--lh-snug,1.3);letter-spacing:-0.01em;color:var(--ink-900);margin:0;text-wrap:balance}
+  .story.lead h3{font-size:clamp(28px,3.4vw,40px);line-height:var(--lh-tight,1.15)}
+  .story.feature h3{font-size:22px}
+  .story.compact h3{font-size:17px}
+  .story .standfirst{font-family:var(--font-sans);font-size:15px;line-height:var(--lh-normal,1.55);color:var(--ink-600);margin:10px 0 0;text-wrap:pretty}
+  .story.lead .standfirst{font-size:17px;margin:16px 0 0;max-width:52ch}
+  .story .media-wrap{margin-bottom:16px}
+  .story.lead .media-wrap{margin-bottom:22px}
+  .story .media-wrap.lead-ratio .placeholder{aspect-ratio:16/9}
+  .story .media-wrap.feature-ratio .placeholder{aspect-ratio:3/2}
+  .story .media-wrap.compact-ratio .placeholder{aspect-ratio:4/3;width:96px}
+  .story.compact article{display:flex;gap:14px;align-items:flex-start}
+  .story.compact .media-wrap{flex:0 0 96px;margin-bottom:0}
+  .story.compact .body{flex:1;min-width:0}
+  .story.compact .byline{margin-top:8px}
+
+  /* topic rail */
+  .topic-rail{padding:28px 0 4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .topic-rail .label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-400);margin-right:6px}
+  .tag{font-family:var(--font-sans);font-size:12.5px;font-weight:600;padding:5px 11px;border:1px solid var(--ink-300);border-radius:999px;color:var(--ink-700);text-decoration:none;cursor:pointer;white-space:nowrap}
+  .tag.active{background:var(--ink-900);color:var(--paper);border-color:var(--ink-900)}
+  .tag:hover{border-color:var(--ink-900);color:var(--ink-900)}
+  .tag.active:hover{color:var(--paper)}
+
+  /* latest feed */
+  .latest{padding:20px 0 48px}
+  .latest-feed{max-height:520px;overflow-y:auto;border-top:1px solid var(--ink-200);scrollbar-width:thin;scrollbar-color:var(--ink-300) transparent}
+  .latest-feed .row{border-bottom:1px solid var(--ink-150);padding:18px 4px}
+
+  /* footer */
+  footer.site-footer{margin-top:60px;background:var(--ink-900);color:var(--paper)}
+  footer.site-footer .container{padding:48px var(--gutter)}
+  footer.site-footer .row{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.12)}
+  footer.site-footer .word{display:flex;align-items:center;gap:14px}
+  footer.site-footer .word svg{width:40px;height:40px;color:var(--paper)}
+  footer.site-footer .wordmark{color:var(--paper);font-size:28px}
+  footer.site-footer nav{display:flex;flex-wrap:wrap;gap:28px}
+  footer.site-footer nav a{font-family:var(--font-sans);font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.78);text-decoration:none}
+  footer.site-footer nav a:hover{color:var(--paper)}
+  footer.site-footer .meta{padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+
+  /* responsive */
+  @media (max-width: 900px){
+    .top-three{grid-template-columns:1fr;gap:32px}
+    .top-three .lead{border-right:none;padding-right:0;border-bottom:1px solid var(--ink-200);padding-bottom:32px}
+    .util-bar .links a:not(.signin){display:none}
+    .wordmark{font-size:28px}
+    .masthead-logo svg{width:38px;height:38px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container util-bar">
+    <span class="mono-label" id="todays-date">Today's Date</span>
+    <div class="links">
+      <a href="#" class="mono-label">Today's Paper</a>
+      <a href="#" class="mono-label">Newsletters</a>
+      <a href="#" class="mono-label signin">Sign in</a>
+    </div>
+  </div>
+
+  <div class="container masthead">
+    <a href="/" class="masthead-logo">
+      <svg viewBox="0 0 64 64" aria-label="The Anvil Daily">
+        <g fill="currentColor">
+          <polygon points="17,20 17,28 5,23.5"></polygon>
+          <rect x="15" y="18" width="35" height="9.5" rx="1.6"></rect>
+          <rect x="44" y="27" width="6" height="4" rx="1"></rect>
+          <polygon points="22,27.5 44,27.5 38.5,41 27.5,41"></polygon>
+          <polygon points="28,40 38,40 49,49 15,49"></polygon>
+          <rect x="13.5" y="47.5" width="37" height="4.5" rx="1.4"></rect>
+        </g>
+      </svg>
+      <span class="wordmark">The Anvil<span class="accent"> Daily</span></span>
+    </a>
+    <div class="masthead-actions">
+      <a href="#" class="btn outline">Search</a>
+      <a href="#" class="btn accent">Subscribe</a>
+    </div>
+  </div>
+
+  <nav class="section-nav" aria-label="Sections">
+    <div class="container">
+      <a href="/" class="active">Top Stories</a>
+      <a href="/politics/">Politics</a>
+      <a href="/economy/">Economy</a>
+      <a href="/border/">Border</a>
+      <a href="/culture/">Culture</a>
+      <a href="/foreign-policy/">Foreign Policy</a>
+      <a href="/2a/">2A</a>
+    </div>
+  </nav>
+</header>
+
+<div class="breaking-ticker">
+  <div class="container">
+    <span class="kicker breaking">Breaking</span>
+    <span class="body">
+      Site is live. The Anvil Daily aggregates the day's most consequential conservative reporting and tells you why it matters.
+      <a href="#" class="follow">Follow live →</a>
+    </span>
+  </div>
+</div>
+
+<main>
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-rule"><h2>The Top Three</h2><span class="kicker">Updated hourly</span></div>
+
+      <div class="top-three">
+        <!-- LEAD -->
+        <a href="#" class="story lead">
+          <article>
+            <div class="media-wrap lead-ratio">
+              <div class="placeholder"><span class="placeholder-label">Photograph</span></div>
+            </div>
+            <div class="head">
+              <span class="rank">01</span>
+              <span class="kicker accent">Investigations</span>
+            </div>
+            <h3>The numbers didn't add up. We checked the work the rest of the press took on faith.</h3>
+            <p class="standfirst">A trail of quietly amended filings points to a shortfall that auditors signed off on anyway — and to the lawmakers who waved it through.</p>
+            <p class="byline"><strong>Marlow Devine</strong> · June 18 · 14 min read</p>
+          </article>
+        </a>
+
+        <!-- SECONDARIES -->
+        <div class="secondaries">
+          <div class="pair">
+            <a href="#" class="story feature">
+              <article>
+                <div class="media-wrap feature-ratio">
+                  <div class="placeholder"><span class="placeholder-label">Photograph</span></div>
+                </div>
+                <div class="head">
+                  <span class="rank">02</span>
+                  <span class="kicker">Politics</span>
+                </div>
+                <h3>The vote everyone agreed on — and why that was the problem</h3>
+                <p class="standfirst">A rare unanimous ballot papered over a fight nobody wanted in the minutes.</p>
+                <p class="byline"><strong>Priya Nandakumar</strong> · 2h ago · 8 min read</p>
+              </article>
+            </a>
+          </div>
+          <div class="pair bottom">
+            <a href="#" class="story feature">
+              <article>
+                <div class="media-wrap feature-ratio">
+                  <div class="placeholder"><span class="placeholder-label">Photograph</span></div>
+                </div>
+                <div class="head">
+                  <span class="rank">03</span>
+                  <span class="kicker breaking">Breaking</span>
+                </div>
+                <h3>Regulator opens inquiry hours after our report</h3>
+                <p class="standfirst">The agency confirmed it is reviewing the disclosures we published this morning.</p>
+                <p class="byline"><strong>Newsroom</strong> · Live · 3 min read</p>
+              </article>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="topic-rail">
+      <span class="label">Browse</span>
+      <a href="/" class="tag active">All</a>
+      <a href="/politics/" class="tag">Politics</a>
+      <a href="/economy/" class="tag">Economy</a>
+      <a href="/border/" class="tag">Border</a>
+      <a href="/culture/" class="tag">Culture</a>
+      <a href="/foreign-policy/" class="tag">Foreign Policy</a>
+      <a href="/2a/" class="tag">2A</a>
+    </div>
+  </div>
+
+  <section class="latest">
+    <div class="container">
+      <div class="section-rule"><h2>Latest</h2><span class="kicker">Live feed · scroll for more</span></div>
+      <div class="latest-feed">
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Economy</span></div>
+            <h3>The town that audited its own budget and found the gap</h3>
+            <p class="byline"><strong>J. Okafor</strong> · 4h ago · 6 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Markets</span></div>
+            <h3>A quiet fund made one bet. The whole sector is paying for it.</h3>
+            <p class="byline"><strong>L. Brandt</strong> · 5h ago · 9 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Border</span></div>
+            <h3>Who actually owns your local paper's coverage of the border?</h3>
+            <p class="byline"><strong>S. Vance</strong> · Today · 11 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Politics</span></div>
+            <h3>The amendment that was never read aloud</h3>
+            <p class="byline"><strong>P. Nandakumar</strong> · Today · 5 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Foreign Policy</span></div>
+            <h3>The treaty clause everyone skipped reading</h3>
+            <p class="byline"><strong>R. Hale</strong> · Today · 7 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Culture</span></div>
+            <h3>The museum acquired it. Then the questions started.</h3>
+            <p class="byline"><strong>M. Aaltonen</strong> · 1d ago · 10 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">2A</span></div>
+            <h3>The ATF rule everyone missed in the briefing room</h3>
+            <p class="byline"><strong>D. Okonkwo</strong> · 1d ago · 8 min</p>
+          </div>
+        </article></a></div>
+
+        <div class="row"><a href="#" class="story compact"><article>
+          <div class="media-wrap compact-ratio"><div class="placeholder"><span class="placeholder-label">Photo</span></div></div>
+          <div class="body">
+            <div class="head"><span class="kicker">Economy</span></div>
+            <h3>A shipping route nobody insures is suddenly everyone's problem</h3>
+            <p class="byline"><strong>L. Brandt</strong> · 1d ago · 7 min</p>
+          </div>
+        </article></a></div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="row">
+      <div class="word">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <g fill="currentColor">
+            <polygon points="17,20 17,28 5,23.5"></polygon>
+            <rect x="15" y="18" width="35" height="9.5" rx="1.6"></rect>
+            <rect x="44" y="27" width="6" height="4" rx="1"></rect>
+            <polygon points="22,27.5 44,27.5 38.5,41 27.5,41"></polygon>
+            <polygon points="28,40 38,40 49,49 15,49"></polygon>
+            <rect x="13.5" y="47.5" width="37" height="4.5" rx="1.4"></rect>
+          </g>
+        </svg>
+        <span class="wordmark">The Anvil<span style="color:var(--red-500)"> Daily</span></span>
+      </div>
+      <nav>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/newsletter/">Newsletter</a>
+        <a href="/rss.xml">RSS</a>
+      </nav>
+    </div>
+    <div class="meta">
+      <span>© 2026 The Anvil Daily</span>
+      <span>Independent journalism that checks the math</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set today's date in the utility bar
+  (function(){
+    var d = new Date();
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('todays-date').textContent = days[d.getDay()] + ' · ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  })();
+</script>
+
+</body>
+</html>
