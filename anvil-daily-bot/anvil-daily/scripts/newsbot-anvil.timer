@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Anvil Daily Newsbot every hour
+Requires=newsbot-anvil.service
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=120
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,16 @@
+[Unit]
+Description=Anvil Daily Newsbot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=rotas
+WorkingDirectory=/home/rotas/Documents/anvil-daily
+Environment=ANTHROPIC_API_KEY=YOUR_API_KEY_HERE
+ExecStart=/usr/bin/python3 /home/rotas/Documents/anvil-daily/scripts/newsbot_anvil.py
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
