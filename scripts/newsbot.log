@@ -1,0 +1,76 @@
+2026-07-07 13:45:43,203 [INFO] =======================================================
+2026-07-07 13:45:43,203 [INFO] Anvil Daily newsbot starting
+2026-07-07 13:45:43,743 [INFO] Fetching Fox News...
+2026-07-07 13:45:44,119 [INFO]   Fox News: 3 entries
+2026-07-07 13:45:44,120 [INFO]   Writing: Talarico campaigns with surgeon who operated on transge
+2026-07-07 13:45:47,975 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:45:48,024 [INFO]   Writing: Furious anti-Trump voices cheer US team's crushing Worl
+2026-07-07 13:45:52,393 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:45:52,406 [INFO]   Writing: Dems uphill climb for Senate majority just got a lot st
+2026-07-07 13:45:57,101 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:45:57,103 [INFO] Fetching NY Post...
+2026-07-07 13:45:57,354 [INFO]   NY Post: 3 entries
+2026-07-07 13:45:57,356 [INFO]   Writing: Gavin Newsom’s return to office mandate mystery as mult
+2026-07-07 13:46:01,487 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:01,497 [INFO]   Writing: The ‘game-changer’ peel pads stars like Sydney Sweeney 
+2026-07-07 13:46:05,393 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:05,401 [INFO] Fetching Daily Wire...
+2026-07-07 13:46:05,984 [INFO]   Daily Wire: 3 entries
+2026-07-07 13:46:05,986 [INFO]   Writing: Trump Considers Reversing One Of His Own First-Term For
+2026-07-07 13:46:10,215 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:10,228 [INFO]   Writing: What Is Next For The United States When It Comes To Int
+2026-07-07 13:46:15,150 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:15,157 [INFO]   Writing: Trump Praises Turkey’s Erdogan For His Friendship, High
+2026-07-07 13:46:19,362 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:19,365 [INFO] Fetching Washington Examiner...
+2026-07-07 13:46:19,973 [INFO]   Washington Examiner: 3 entries
+2026-07-07 13:46:19,976 [INFO]   Writing: Maine socialists distance themselves from Platner: ‘We 
+2026-07-07 13:46:23,465 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:23,478 [INFO]   Writing: US rescinds oil waivers for Iran after ships attacked i
+2026-07-07 13:46:27,767 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:27,784 [INFO]   Writing: Florida appeals court strikes down DeSantis’s anti-woke
+2026-07-07 13:46:32,996 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:33,003 [INFO] Fetching National Review...
+2026-07-07 13:46:33,445 [INFO]   National Review: 3 entries
+2026-07-07 13:46:33,448 [INFO]   Writing: Does the WNBA Not Like Caitlin Clark?
+2026-07-07 13:46:37,781 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:37,785 [INFO]   Writing: Trump Shouldn’t Delist Syria Without Conditions
+2026-07-07 13:46:42,338 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:42,350 [INFO]   Writing: No Country for Nihilism
+2026-07-07 13:46:46,172 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:46,177 [INFO] Fetching The Federalist...
+2026-07-07 13:46:46,454 [INFO]   The Federalist: 3 entries
+2026-07-07 13:46:46,458 [INFO]   Writing: Democrats Have Alienated Normal Men. Now They’re Stuck 
+2026-07-07 13:46:50,906 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:50,928 [INFO]   Writing: Congress Can’t Require Members To Show Up Or Quit
+2026-07-07 13:46:55,640 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:55,661 [INFO]   Writing: New Film Asks If America Can Survive Without Virtue
+2026-07-07 13:46:59,887 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:46:59,897 [INFO] Fetching Townhall...
+2026-07-07 13:47:00,320 [INFO]   Townhall: 0 entries
+2026-07-07 13:47:00,320 [INFO] Fetching Breitbart...
+2026-07-07 13:47:00,819 [INFO]   Breitbart: 3 entries
+2026-07-07 13:47:00,823 [INFO]   Writing: Leftist Group Reveals Troubling Allegation Against Pote
+2026-07-07 13:47:04,701 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:04,734 [INFO]   Writing: Bernie Sanders Recommends Graham Platner 'Step Aside' f
+2026-07-07 13:47:09,717 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:09,747 [INFO]   Writing: Nolte: The Nazi Tattoo Wasn't Disqualifying Enough for 
+2026-07-07 13:47:14,602 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:14,606 [INFO] Fetching Washington Times...
+2026-07-07 13:47:14,865 [INFO]   Washington Times: 3 entries
+2026-07-07 13:47:14,870 [INFO]   Writing: Senate Republicans say McConnell is 'fully engaged' ami
+2026-07-07 13:47:18,608 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:18,620 [INFO]   Writing: Sanders says Platner should quit Maine Senate race
+2026-07-07 13:47:22,505 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:22,522 [INFO]   Writing: NYC's Zohran Mamdani says it is time for Graham Platner
+2026-07-07 13:47:26,672 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:26,677 [INFO] Fetching RealClearPolitics...
+2026-07-07 13:47:26,931 [INFO]   RealClearPolitics: 3 entries
+2026-07-07 13:47:26,937 [INFO]   Writing: What Works in Dem Primaries May Not in the General
+2026-07-07 13:47:31,458 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:31,468 [INFO]   Writing: Resurrecting the Communist Boogeyman Is a Dead End
+2026-07-07 13:47:35,807 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:35,817 [INFO]   Writing: Trump Obliterates Mamdani's Anti-American Diatribe
+2026-07-07 13:47:40,315 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-07 13:47:40,325 [INFO] New posts: 26. Pushing...
+2026-07-07 13:47:44,290 [INFO] Done
