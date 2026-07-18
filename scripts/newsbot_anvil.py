@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-newsbot_anvil.py — The Anvil Daily automated news aggregator
-Runs hourly via systemd timer on the ThinkPad.
+newsbot_anvil.py v2 — The Anvil Daily automated news aggregator
+Adds Open Graph image extraction for article thumbnails.
 """
 
 import os, json, hashlib, logging, re, subprocess, time
 from datetime import datetime, timezone
 from pathlib import Path
 from difflib import SequenceMatcher
+from urllib.request import urlopen, Request
+from urllib.error import URLError
 
 import feedparser
 import anthropic
@@ -36,7 +38,7 @@ RSS_SOURCES = [
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[logging.FileHandler(LOG_FILE), logging.StreamHandler()]
+    handlers=[logging.FileHandler(LOG_FILE, encoding="utf-8"), logging.StreamHandler()]
 )
 log = logging.getLogger(__name__)
 
@@ -58,16 +60,57 @@ def slugify(text):
     text = re.sub(r"[^\w\s-]", "", text.lower())
     return re.sub(r"[\s_]+", "-", text)[:60].strip("-")
 
+def get_og_image(url):
+    """Fetch the Open Graph image from the article URL. Returns image URL or None."""
+    try:
+        req = Request(url, headers={
+            "User-Agent": "Mozilla/5.0 (compatible; AnvilDailyBot/2.0)",
+            "Accept": "text/html,application/xhtml+xml",
+        })
+        with urlopen(req, timeout=5) as resp:
+            # Only read first 50KB — og:image is always in <head>
+            chunk = resp.read(51200).decode("utf-8", errors="ignore")
+        
+        # Try og:image first
+        m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', chunk, re.I)
+        if not m:
+            m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', chunk, re.I)
+        # Fallback: twitter:image
+        if not m:
+            m = re.search(r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']', chunk, re.I)
+        if not m:
+            m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image["\']', chunk, re.I)
+        
+        if m:
+            img = m.group(1).strip()
+            # Make sure it's an absolute URL
+            if img.startswith("//"):
+                img = "https:" + img
+            if img.startswith("http"):
+                return img
+    except Exception as ex:
+        log.debug(f"  OG image fetch failed for {url}: {ex}")
+    return None
+
 def fetch(source):
     try:
-        feed = feedparser.parse(source["url"], agent="AnvilDailyBot/1.0")
+        feed = feedparser.parse(source["url"], agent="AnvilDailyBot/2.0")
         out = []
         for e in feed.entries[:MAX_PER_SOURCE]:
             t = e.get("title","").strip()
             l = e.get("link","").strip()
             s = re.sub(r"<[^>]+>","", e.get("summary", e.get("description",""))).strip()[:500]
+            # Try to get image from RSS first (media:content or enclosure)
+            img = None
+            if hasattr(e, "media_content") and e.media_content:
+                img = e.media_content[0].get("url")
+            if not img and hasattr(e, "enclosures") and e.enclosures:
+                enc = e.enclosures[0]
+                if enc.get("type","").startswith("image"):
+                    img = enc.get("url")
             if t and l:
-                out.append({"title":t,"link":l,"summary":s,"source":source["name"],"category":source["category"]})
+                out.append({"title":t,"link":l,"summary":s,"source":source["name"],
+                           "category":source["category"],"rss_image":img})
         log.info(f"  {source['name']}: {len(out)} entries")
         return out
     except Exception as ex:
@@ -91,29 +134,40 @@ Return ONLY the commentary text, no labels or headers."""}]
         log.warning(f"  Commentary failed: {ex}")
         return "This story is developing. Check back for analysis as details emerge."
 
-def build_html(article, wtm, post_id):
+def build_html(article, wtm, post_id, image_url=None):
     ts = datetime.now(timezone.utc).strftime("%B %d, %Y · %I:%M %p UTC")
     wtm_html = "\n".join(f"<p>{p.strip()}</p>" for p in wtm.split("\n") if p.strip())
     title_esc = article['title'].replace('"','&quot;').replace("'","&#39;")
+
+    # Hero image block
+    if image_url:
+        hero = f'<img src="{image_url}" alt="{title_esc}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px;margin-bottom:28px;display:block;">'
+    else:
+        hero = '<div style="width:100%;aspect-ratio:16/9;background:#f0f0f0;background-image:radial-gradient(rgba(11,11,12,0.08) 1px,transparent 1.4px);background-size:7px 7px;border-radius:2px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#aaa">Photograph</span></div>'
+
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title_esc} — The Anvil Daily</title>
+<title>{title_esc} -- The Anvil Daily</title>
 <meta name="description" content="{article['summary'][:160]}">
+<meta property="og:title" content="{title_esc}">
+<meta property="og:description" content="{article['summary'][:200]}">
+<meta property="og:type" content="article">
+{"<meta property='og:image' content='" + image_url + "'>" if image_url else ""}
 <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg">
 <link rel="canonical" href="https://anvildaily.com/posts/{post_id}/">
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/tokens/colors.css">
 <link rel="stylesheet" href="/tokens/fonts.css">
 <style>
-*{{box-sizing:border-box}}html,body{{margin:0;background:var(--paper);color:var(--text-primary);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}}
+*{{box-sizing:border-box}}html,body{{margin:0;background:#fff;color:#0B0B0C;font-family:var(--font-sans,-apple-system,sans-serif);-webkit-font-smoothing:antialiased}}
 a{{color:inherit}}.wrap{{max-width:800px;margin:0 auto;padding:0 24px}}
-.hdr{{border-bottom:1px solid var(--ink-200,#e5e5e5);padding:16px 0;display:flex;align-items:center;justify-content:space-between}}
-.logo{{font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:-.025em;color:#0B0B0C;text-decoration:none}}
+.hdr{{border-bottom:1px solid #e5e5e5;padding:16px 0;display:flex;align-items:center;justify-content:space-between}}
+.logo{{font-family:var(--font-display,Georgia,serif);font-weight:800;font-size:24px;letter-spacing:-.025em;color:#0B0B0C;text-decoration:none}}
 .logo span{{color:#D6231F}}.back{{font-size:12px;font-family:monospace;letter-spacing:.08em;text-transform:uppercase;color:#888;text-decoration:none}}
 .art{{padding:48px 0 80px}}.kat{{font-family:monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#D6231F;margin-bottom:12px}}
-h1{{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,4vw,42px);line-height:1.15;letter-spacing:-.02em;color:#0B0B0C;margin:0 0 18px}}
+h1{{font-family:var(--font-display,Georgia,serif);font-weight:800;font-size:clamp(26px,4vw,42px);line-height:1.15;letter-spacing:-.02em;color:#0B0B0C;margin:0 0 18px}}
 .meta{{font-size:12px;font-family:monospace;color:#888;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #e5e5e5}}
 .src-btn{{display:inline-block;margin-bottom:28px;font-size:13px;font-weight:700;color:#D6231F;text-decoration:none;border:1.5px solid #D6231F;padding:8px 16px;border-radius:2px}}
 .src-btn:hover{{background:#D6231F;color:#fff}}
@@ -128,21 +182,111 @@ footer{{background:#0B0B0C;color:rgba(255,255,255,.4);padding:24px 0;text-align:
 <body>
 <header><div class="wrap hdr">
   <a href="/" class="logo">The Anvil<span> Daily</span></a>
-  <a href="/" class="back">← All Stories</a>
+  <a href="/" class="back">All Stories</a>
 </div></header>
 <main class="art"><div class="wrap">
-  <div class="kat">{article['category']} · {article['source']}</div>
+  {hero}
+  <div class="kat">{article['category']} -- {article['source']}</div>
   <h1>{article['title']}</h1>
   <div class="meta">Published {ts}</div>
-  <a href="{article['link']}" target="_blank" rel="noopener" class="src-btn">Read full story at {article['source']} →</a>
+  <a href="{article['link']}" target="_blank" rel="noopener" class="src-btn">Read full story at {article['source']} &rarr;</a>
   <div class="summ">{article['summary']}</div>
   <div class="wtm">
-    <div class="wtm-label">⚡ Why This Matters</div>
+    <div class="wtm-label">Why This Matters</div>
     {wtm_html}
   </div>
 </div></main>
-<footer>© 2026 The Anvil Daily · anvildaily.com</footer>
+<footer>2026 The Anvil Daily &middot; anvildaily.com</footer>
 </body></html>"""
+
+def build_homepage_card(article, post_id, image_url=None):
+    """Return HTML for a story card with real image or placeholder."""
+    if image_url:
+        media = f'<img src="{image_url}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">'
+    else:
+        media = '<div class="placeholder"><span class="placeholder-label">Photograph</span></div>'
+    return {
+        "id": post_id,
+        "title": article["title"],
+        "summary": article["summary"][:180],
+        "source": article["source"],
+        "category": article["category"],
+        "image_url": image_url,
+        "media_html": media,
+    }
+
+def rebuild_index(all_posts):
+    index_path = REPO_ROOT / "public" / "index.html"
+    if not index_path.exists():
+        log.warning("index.html not found, skipping rebuild")
+        return
+
+    # Build latest feed rows
+    feed_rows = ""
+    for p in all_posts[:20]:
+        if p.get("image_url"):
+            thumb = f'<img src="{p["image_url"]}" alt="" style="width:96px;height:72px;object-fit:cover;border-radius:2px;flex:0 0 96px;">'
+        else:
+            thumb = '<div class="placeholder" style="width:96px;height:72px;flex:0 0 96px;"><span class="placeholder-label">Photo</span></div>'
+        feed_rows += f"""
+        <div class="row"><a href="/posts/{p['id']}/" class="story compact"><article style="display:flex;gap:14px;align-items:flex-start;">
+          {thumb}
+          <div class="body">
+            <div class="head"><span class="kicker">{p['category']}</span></div>
+            <h3>{p['title']}</h3>
+            <p class="byline"><strong>{p['source']}</strong> &middot; Just now &middot; 3 min</p>
+          </div>
+        </article></a></div>"""
+
+    # Top 3 hero
+    hero_posts = all_posts[:3] if len(all_posts) >= 3 else all_posts
+
+    def make_img(p, style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px;"):
+        if p.get("image_url"):
+            return f'<img src="{p["image_url"]}" alt="" style="{style}">'
+        return '<div class="placeholder" style="width:100%;aspect-ratio:16/9;"><span class="placeholder-label">Photograph</span></div>'
+
+    lead_html = ""
+    if hero_posts:
+        p = hero_posts[0]
+        lead_html = f"""<a href="/posts/{p['id']}/" class="story lead"><article>
+            <div class="media-wrap lead-ratio">{make_img(p)}</div>
+            <div class="head"><span class="rank">01</span><span class="kicker accent">{p['category']}</span></div>
+            <h3>{p['title']}</h3>
+            <p class="standfirst">{p['summary'][:180]}...</p>
+            <p class="byline"><strong>{p['source']}</strong> &middot; Just now &middot; 4 min read</p>
+          </article></a>"""
+
+    secondaries_html = "<div class='secondaries'>"
+    for i, p in enumerate(hero_posts[1:3], 2):
+        cls = "bottom" if i == 3 else ""
+        secondaries_html += f"""<div class='pair {cls}'><a href="/posts/{p['id']}/" class="story feature"><article>
+            <div class="media-wrap feature-ratio">{make_img(p, "width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:2px;")}</div>
+            <div class="head"><span class="rank">0{i}</span><span class="kicker">{p['category']}</span></div>
+            <h3>{p['title']}</h3>
+            <p class="standfirst">{p['summary'][:140]}...</p>
+            <p class="byline"><strong>{p['source']}</strong> &middot; Just now &middot; 3 min read</p>
+          </article></a></div>"""
+    secondaries_html += "</div>"
+
+    content = index_path.read_text(encoding="utf-8")
+
+    new_top_three = f'<div class="top-three">\n        {lead_html}\n        {secondaries_html}\n      </div>'
+    content = re.sub(
+        r'<div class="top-three">.*?</div>\s*</div>\s*</section>',
+        new_top_three + '\n      </div>\n    </section>',
+        content, flags=re.DOTALL, count=1
+    )
+
+    new_feed = f'<div class="latest-feed">{feed_rows}\n      </div>'
+    content = re.sub(
+        r'<div class="latest-feed">.*?</div>\s*</div>\s*</section>',
+        new_feed + '\n    </div>\n  </section>',
+        content, flags=re.DOTALL, count=1
+    )
+
+    index_path.write_text(content, encoding="utf-8")
+    log.info(f"  Homepage rebuilt with {len(all_posts)} posts")
 
 def git_push():
     try:
@@ -153,13 +297,13 @@ def git_push():
         ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         subprocess.run(["git","commit","-m",f"bot: {ts}"], cwd=REPO_ROOT, check=True, capture_output=True)
         subprocess.run(["git","push","origin","main"], cwd=REPO_ROOT, check=True, capture_output=True)
-        log.info("  Pushed → Cloudflare rebuilding")
+        log.info("  Pushed to GitHub - Cloudflare rebuilding")
     except subprocess.CalledProcessError as ex:
         log.error(f"  Git error: {ex.stderr.decode() if ex.stderr else ex}")
 
 def main():
     log.info("="*55)
-    log.info("Anvil Daily newsbot starting")
+    log.info("Anvil Daily newsbot v2 starting")
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         log.error("ANTHROPIC_API_KEY not set"); return
@@ -167,7 +311,7 @@ def main():
     posted = load_ids()
     seen_titles = posted.get("titles", [])
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
-    new_count = 0
+    new_posts = []
 
     for source in RSS_SOURCES:
         log.info(f"Fetching {source['name']}...")
@@ -176,16 +320,30 @@ def main():
             if h in posted: continue
             if any(similar(art["title"], t) for t in seen_titles):
                 log.info(f"  Dupe skip: {art['title'][:55]}"); continue
+
+            # Fetch OG image (with RSS image as first fallback)
+            image_url = art.get("rss_image")
+            if not image_url:
+                log.info(f"  Fetching OG image for: {art['title'][:45]}")
+                image_url = get_og_image(art["link"])
+                if image_url:
+                    log.info(f"  Got image: {image_url[:60]}")
+                else:
+                    log.info(f"  No image found, using placeholder")
+
             log.info(f"  Writing: {art['title'][:55]}")
             wtm = commentary(art, client)
             ts_slug = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")
             post_id = f"{ts_slug}-{slugify(art['title'])}"
             post_dir = POSTS_DIR / post_id
             post_dir.mkdir(parents=True, exist_ok=True)
-            (post_dir / "index.html").write_text(build_html(art, wtm, post_id), encoding="utf-8")
+            (post_dir / "index.html").write_text(
+                build_html(art, wtm, post_id, image_url), encoding="utf-8"
+            )
             posted[h] = {"title": art["title"], "at": datetime.now(timezone.utc).isoformat()}
             seen_titles.append(art["title"])
-            new_count += 1
+            card = build_homepage_card(art, post_id, image_url)
+            new_posts.append(card)
 
     # Trim history
     if len(posted) > 600:
@@ -194,8 +352,9 @@ def main():
     posted["titles"] = seen_titles[-300:]
     save_ids(posted)
 
-    if new_count:
-        log.info(f"New posts: {new_count}. Pushing...")
+    if new_posts:
+        log.info(f"New posts: {len(new_posts)}. Rebuilding and pushing...")
+        rebuild_index(new_posts)
         git_push()
     else:
         log.info("No new posts this run")
