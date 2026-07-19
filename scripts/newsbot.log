@@ -74,3 +74,101 @@
 2026-07-07 13:47:40,315 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
 2026-07-07 13:47:40,325 [INFO] New posts: 26. Pushing...
 2026-07-07 13:47:44,290 [INFO] Done
+2026-07-18 11:01:51,008 [INFO] =======================================================
+2026-07-18 11:01:51,009 [INFO] Anvil Daily newsbot v2 starting
+2026-07-18 11:01:51,446 [INFO] Fetching Fox News...
+2026-07-18 11:01:51,819 [INFO]   Fox News: 3 entries
+2026-07-18 11:01:51,825 [INFO]   Writing: Two US service members killed in Iranian strikes on Jor
+2026-07-18 11:01:56,560 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:01:56,604 [INFO]   Writing: Kentucky governor says he received 2 calls from agencie
+2026-07-18 11:02:01,555 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:01,583 [INFO]   Writing: Rep Ralph Norman enters South Carolina Senate race desp
+2026-07-18 11:02:05,235 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:05,242 [INFO] Fetching NY Post...
+2026-07-18 11:02:05,523 [INFO]   NY Post: 3 entries
+2026-07-18 11:02:05,531 [INFO]   Writing: LeBron James still unsure of future amid latest ‘trust 
+2026-07-18 11:02:09,834 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:09,863 [INFO]   Writing: Can you get sucked out of an airplane window? Aviation 
+2026-07-18 11:02:14,346 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:14,380 [INFO]   Writing: Curtis Mead, Tommy White can provide third base upside 
+2026-07-18 11:02:18,606 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:18,608 [INFO] Fetching Daily Wire...
+2026-07-18 11:02:19,110 [INFO]   Daily Wire: 3 entries
+2026-07-18 11:02:19,118 [INFO]   Fetching OG image for: A Secluded National Park Requires A Passport 
+2026-07-18 11:02:19,397 [INFO]   Got image: https://dw-wp-production.imgix.net/2026/07/NPS-.webp?ar=16%3
+2026-07-18 11:02:19,398 [INFO]   Writing: A Secluded National Park Requires A Passport For Entry
+2026-07-18 11:02:22,889 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:22,899 [INFO]   Fetching OG image for: Finance Guru Rips Viral Social Security Trend
+2026-07-18 11:02:23,162 [INFO]   Got image: https://dw-wp-production.imgix.net/2026/07/GettyImages-52694
+2026-07-18 11:02:23,162 [INFO]   Writing: Finance Guru Rips Viral Social Security Trend
+2026-07-18 11:02:28,159 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:28,171 [INFO]   Fetching OG image for: Go Ahead, Watch ‘The Odyssey’
+2026-07-18 11:02:28,289 [INFO]   Got image: https://dw-wp-production.imgix.net/2026/07/the-odyssey-ODY_A
+2026-07-18 11:02:28,289 [INFO]   Writing: Go Ahead, Watch ‘The Odyssey’
+2026-07-18 11:02:33,193 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:33,197 [INFO] Fetching Washington Examiner...
+2026-07-18 11:02:33,498 [INFO]   Washington Examiner: 3 entries
+2026-07-18 11:02:33,506 [INFO]   Writing: Democrats still searching for identity two years after 
+2026-07-18 11:02:37,197 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:37,215 [INFO]   Writing: Two US service members killed in Jordan after breakdown
+2026-07-18 11:02:41,422 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:41,436 [INFO]   Writing: Ralph Norman announces run for Lindsay Graham’s Senate 
+2026-07-18 11:02:45,088 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:45,093 [INFO] Fetching National Review...
+2026-07-18 11:02:45,378 [INFO]   National Review: 3 entries
+2026-07-18 11:02:45,383 [INFO]   Writing: The Muslim Brotherhood and Our Fifth Column
+2026-07-18 11:02:49,354 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:49,366 [INFO]   Writing: A Colorblind Constitution Is Not Just a Partisan Pet Pr
+2026-07-18 11:02:53,477 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:53,488 [INFO]   Writing: Making Crazy Horse: The Role of a Lifetime
+2026-07-18 11:02:57,317 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:02:57,321 [INFO] Fetching The Federalist...
+2026-07-18 11:02:57,704 [INFO]   The Federalist: 3 entries
+2026-07-18 11:02:57,718 [INFO]   Fetching OG image for: Intel Agency Assessed China Planned To ‘Encou
+2026-07-18 11:02:58,355 [INFO]   Got image: https://thefederalist.com/wp-content/uploads/2026/07/1280px-
+2026-07-18 11:02:58,356 [INFO]   Writing: Intel Agency Assessed China Planned To ‘Encourage’ Viol
+2026-07-18 11:03:02,963 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:02,979 [INFO]   Fetching OG image for: CIA Report: Venezuela ‘Could Have’ Used Votin
+2026-07-18 11:03:03,634 [INFO]   Got image: https://thefederalist.com/wp-content/uploads/2026/07/COMELEC
+2026-07-18 11:03:03,635 [INFO]   Writing: CIA Report: Venezuela ‘Could Have’ Used Voting Machines
+2026-07-18 11:03:09,136 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:09,156 [INFO]   Fetching OG image for: Blue State Elections Require Less Voter ID Th
+2026-07-18 11:03:09,706 [INFO]   Got image: https://thefederalist.com/wp-content/uploads/2026/07/An_Oliv
+2026-07-18 11:03:09,706 [INFO]   Writing: Blue State Elections Require Less Voter ID Than Olive G
+2026-07-18 11:03:15,024 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:15,030 [INFO] Fetching Townhall...
+2026-07-18 11:03:15,383 [INFO]   Townhall: 0 entries
+2026-07-18 11:03:15,383 [INFO] Fetching Breitbart...
+2026-07-18 11:03:15,977 [INFO]   Breitbart: 3 entries
+2026-07-18 11:03:15,989 [INFO]   Fetching OG image for: Zohran Mamdani's New York City Includes a 12-
+2026-07-18 11:03:16,211 [INFO]   Got image: https://media.breitbart.com/media/2026/07/AP21123607688571-6
+2026-07-18 11:03:16,211 [INFO]   Writing: Zohran Mamdani's New York City Includes a 12-Block-Long
+2026-07-18 11:03:20,104 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:20,125 [INFO]   Fetching OG image for: Polis: Socialism 'a Tool to Further Exploit P
+2026-07-18 11:03:20,244 [INFO]   Got image: https://media.breitbart.com/media/2024/08/polis-640x335.jpg
+2026-07-18 11:03:20,244 [INFO]   Writing: Polis: Socialism 'a Tool to Further Exploit People'
+2026-07-18 11:03:24,565 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:24,584 [INFO]   Fetching OG image for: NYC DSA Co-Chair: Any Private Stores Bankrupt
+2026-07-18 11:03:24,706 [INFO]   Got image: https://media.breitbart.com/media/2023/09/Anacostia-Giant-Fo
+2026-07-18 11:03:24,706 [INFO]   Writing: NYC DSA Co-Chair: Any Private Stores Bankrupted by Gove
+2026-07-18 11:03:29,228 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:29,232 [INFO] Fetching Washington Times...
+2026-07-18 11:03:29,488 [INFO]   Washington Times: 3 entries
+2026-07-18 11:03:29,504 [INFO]   Writing: Secret Service morale strained by Vances' last-minute t
+2026-07-18 11:03:33,820 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:33,851 [INFO]   Writing: Gov. Tony Evers to endorse David Crowley in Wisconsin's
+2026-07-18 11:03:37,577 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:37,614 [INFO]   Writing: Ralph Norman jumps into GOP Senate race to succeed Lind
+2026-07-18 11:03:41,554 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:41,561 [INFO] Fetching RealClearPolitics...
+2026-07-18 11:03:41,881 [INFO]   RealClearPolitics: 3 entries
+2026-07-18 11:03:41,891 [INFO]   Writing: Trump Releases Election Files Alleging Foreign Threats
+2026-07-18 11:03:45,976 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:45,999 [INFO]   Writing: China's Xi Is Still Planning for a Lavish State Visit t
+2026-07-18 11:03:50,876 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:50,901 [INFO]   Writing: After Birthplace Ruling, China Won't Need Election Hack
+2026-07-18 11:03:55,075 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-18 11:03:55,082 [INFO] New posts: 27. Rebuilding and pushing...
+2026-07-18 11:03:55,116 [INFO]   Homepage rebuilt with 27 posts
+2026-07-18 11:03:58,999 [INFO]   Pushed to GitHub - Cloudflare rebuilding
+2026-07-18 11:03:59,000 [INFO] Done
